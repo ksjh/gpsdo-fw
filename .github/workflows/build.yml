@@ -29,3 +29,10 @@ jobs:
       run: |
         cmake -Bbuild -DCMAKE_BUILD_TYPE="${{ matrix.type }}"
         cmake --build build
+        arm-none-eabi-objcopy -O binary build/gpsdo.elf build/"${{ matrix.type }}.bin"
+
+    - name: Archive build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-${{ matrix.type }}
+        path: build/"${{ matrix.type }}.bin"
